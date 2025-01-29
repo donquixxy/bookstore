@@ -10,20 +10,26 @@
   "dependencies": {
     "@types/caller": "^1.0.2",
     "@types/express": "^5.0.0",
+    "@types/jsonwebtoken": "^9.0.8",
     "@types/stack-trace": "^0.0.33",
+    "bcrypt": "^5.1.1",
     "caller": "^1.1.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.12.0",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.5",
     "stack-trace": "^1.0.0-pre2",
     "tsyringe": "^4.8.0",
+    "uuid": "^11.0.5",
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "typescript": "^5.5.3"
   },
