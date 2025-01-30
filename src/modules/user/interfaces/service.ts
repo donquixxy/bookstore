@@ -8,4 +8,5 @@ export interface IUserService {
     CreateUser (data:UserCreateDTO, trx?:sequelize.Transaction):Promise<User | null>;
     GetAll (filter:UserFilterDTO):Promise<User[]>;
     Login(request:LoginDTO):Promise<AuthResponse | null>;
+    Get(filter:UserFilterDTO):Promise<User|null>
 }

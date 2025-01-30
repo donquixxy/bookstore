@@ -5,7 +5,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "cross-env TZ=Asia/Makassar ts-node src/index.ts"
   },
   "dependencies": {
     "@types/caller": "^1.0.2",
@@ -20,6 +20,7 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.2",
+    "moment-timezone": "^0.5.47",
     "mysql2": "^3.12.0",
     "reflect-metadata": "^0.2.2",
     "sequelize": "^6.37.5",
@@ -29,8 +30,10 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.4.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
+    "cross-env": "^7.0.3",
     "typescript": "^5.5.3"
   },
   "private": true

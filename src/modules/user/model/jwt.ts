@@ -1,9 +1,5 @@
-class JwtClaims {
-    id: string;
-
-    constructor(id: string) {
-        this.id = id;
-    }
+export class JwtClaims {
+    id?: string;
 }
 
 export class AuthResponse {

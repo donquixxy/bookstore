@@ -82,6 +82,10 @@ class UserService implements IUserService {
             {expiresIn: "30d"}
         )
     }
+
+   async Get(filter: UserFilterDTO): Promise<User | null> {
+        return await this.userRepository.Get(filter)
+    }
 }
 
 export default UserService;

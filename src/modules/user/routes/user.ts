@@ -4,7 +4,7 @@ import {IUserService} from "../interfaces/service";
 import UserHandler from "../handler/user";
 import logger from "../../../utils/logger";
 
-export function initUserRoute (app: express.Application, router:Router) {
+export function initUserRoute (router:Router) {
     const userService = container.resolve<IUserService>("IUserService")
     const userController = new UserHandler(userService)
 
