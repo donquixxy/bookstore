@@ -19,10 +19,12 @@ class BaseResponse<T> {
 }
 
 export class PaginatedResponse<T> extends BaseResponse<T[]> {
-    count: number;
-    pages: number;
-    current_page: number;
-    limit: number;
+    metadata:{
+        count: number;
+        pages: number;
+        current_page: number;
+        limit: number;
+    }
 
     constructor(
         message: string,
@@ -33,10 +35,12 @@ export class PaginatedResponse<T> extends BaseResponse<T[]> {
         limit: number
     ) {
         super(message, data);
-        this.count = totalItems;
-        this.pages = totalPages;
-        this.current_page = currentPage;
-        this.limit = limit;
+        this.metadata = {
+            count: totalItems,
+            pages: totalPages,
+            current_page: currentPage,
+            limit: limit,
+        }
     }
 
     static SuccessPaginated<T>(

@@ -4,14 +4,12 @@ import {IUserRepository} from "./modules/user/interfaces/repository";
 import UserRepository from "./modules/user/repository/user";
 import logger from "./utils/logger";
 import DbProvider from "./database/sequelize";
-import initializeModels from "./modules/user/entity/index"
-import express, {Router} from "express"
+import express from "express"
 import cors from "cors";
 import {IUserService} from "./modules/user/interfaces/service";
 import UserService from "./modules/user/service/user";
 import initUserRoute from "./modules/user/routes/user";
 import UserHandler from "./modules/user/handler/user";
-import {initializeBookModel} from "./modules/book/entity";
 import {IBookRepository} from "./modules/book/interfaces/repository";
 import {BookRepository} from "./modules/book/repository/book";
 import {IBookService} from "./modules/book/interfaces/service";
@@ -20,6 +18,9 @@ import {BookHandler} from "./modules/book/handler/book";
 import {initBookRoutes} from "./modules/book/routes/book";
 import loggingMiddleware from "./middleware/logging";
 import {validateToken} from "./middleware/jwt";
+import User from "./modules/user/entity/user";
+import {Book} from "./modules/book/entity/book";
+import {FavoriteBooks} from "./modules/user/entity/favorite_books";
 
 
 
@@ -31,7 +32,8 @@ import {validateToken} from "./middleware/jwt";
     app.use(cors())
     app.use(express.json())
     app.use(loggingMiddleware)
-    const router = Router()
+    const publicRouter = express.Router()
+    const privateRouter = express.Router()
 
     container.register<IUserRepository>("IUserRepository", {
         useFactory: () => new UserRepository(container.resolve<DbProvider>("DbProvider")),
@@ -56,8 +58,7 @@ import {validateToken} from "./middleware/jwt";
          useClass: BookHandler,
      })
 
-     initializeModels();
-     initializeBookModel();
+     initModels()
 
     await dbProvider.getSequelize().sync()
 
@@ -75,9 +76,17 @@ import {validateToken} from "./middleware/jwt";
        })
    })
 
-    const r =  initUserRoute(router)
-    const bookRoute = initBookRoutes(router)
-     app.use("/api", r,bookRoute);
-
+   app.use("/api", initUserRoute(publicRouter));
+   privateRouter.use(validateToken)
+   app.use("/internal", initBookRoutes(privateRouter))
 }
 bootstrapApp()
+
+function initModels() {
+    const dbProvider = container.resolve(DbProvider)
+    User.initialize(dbProvider)
+    Book.initialize(dbProvider)
+    FavoriteBooks.initialize(dbProvider)
+    User.initAssosiation()
+    FavoriteBooks.initAssosiation()
+}

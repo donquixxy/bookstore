@@ -57,9 +57,9 @@ class UserRepository implements IUserRepository {
             whereClause.token = filter.token;
         }
 
-        // Call the ORM's findAll method with the constructed whereClause
         return await User.findAll({
             where: whereClause,
+            include:filter.WithPreload ? {all:true} : [],
         });
     }
 

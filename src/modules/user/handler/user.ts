@@ -52,6 +52,7 @@ class UserHandler {
             const {name,id,email} = request.query
 
             const filter = new UserFilterDTO();
+            filter.WithPreload = true
 
             if (name && name !== "") {
                 filter.name = name as string;

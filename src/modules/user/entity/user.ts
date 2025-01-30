@@ -1,5 +1,6 @@
-import { Model, DataTypes } from "sequelize";
+import {Model, DataTypes, HasMany} from "sequelize";
 import DbProvider from "../../../database/sequelize";
+import {FavoriteBooks} from "./favorite_books";
 
 
 
@@ -13,6 +14,7 @@ class User extends Model {
     public created_at!: Date;
     public updated_at!: Date;
     public deleted_at?: Date;
+    public favorite_books?:FavoriteBooks[];
 
     public static initialize(provider: DbProvider) {
         User.init(
@@ -69,6 +71,15 @@ class User extends Model {
                 timestamps:false,
             }
         );
+    }
+
+    public static initAssosiation () {
+        User.hasMany(FavoriteBooks, {
+            foreignKey:"user_id",
+            constraints:false,
+            foreignKeyConstraint:false,
+            as: "favorite_books",
+        })
     }
 }
 

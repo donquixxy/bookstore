@@ -47,6 +47,7 @@ export class UserFilterDTO {
     email?: string;
     password?: string;
     token?:string;
+    WithPreload?:boolean;
 }
 
 export class LoginDTO{
