@@ -2,6 +2,8 @@ import UserCreateDTO, {LoginDTO, UserFilterDTO} from "../dto/user";
 import sequelize from "sequelize";
 import User from "../entity/user";
 import {AuthResponse} from "../model/jwt";
+import {FavoriteBookDTO, FavoriteBookFilter} from "../dto/favorite_books";
+import {FavoriteBooks} from "../entity/favorite_books";
 
 
 export interface IUserService {
@@ -9,4 +11,9 @@ export interface IUserService {
     GetAll (filter:UserFilterDTO):Promise<User[]>;
     Login(request:LoginDTO):Promise<AuthResponse | null>;
     Get(filter:UserFilterDTO):Promise<User|null>
+}
+
+export interface IFavoriteBookService {
+    Get (filter:FavoriteBookFilter):Promise<FavoriteBooks>
+    FavoriteBook (data:FavoriteBookDTO):Promise<string>
 }

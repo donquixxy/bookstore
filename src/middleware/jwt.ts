@@ -55,6 +55,9 @@ export async function validateToken(req: Request, res: Response, next: NextFunct
             return
         }
 
+        req.user = {
+            id: resultToken.id!,
+        }
         // Move to the next middleware
         next();
     } catch (error) {

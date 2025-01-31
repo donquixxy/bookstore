@@ -1,12 +1,12 @@
 import "reflect-metadata"; // Required for tsyringe to work
 import { container } from "tsyringe";
-import {IUserRepository} from "./modules/user/interfaces/repository";
+import {IFavoriteBookRepository, IUserRepository} from "./modules/user/interfaces/repository";
 import UserRepository from "./modules/user/repository/user";
 import logger from "./utils/logger";
 import DbProvider from "./database/sequelize";
 import express from "express"
 import cors from "cors";
-import {IUserService} from "./modules/user/interfaces/service";
+import {IFavoriteBookService, IUserService} from "./modules/user/interfaces/service";
 import UserService from "./modules/user/service/user";
 import initUserRoute from "./modules/user/routes/user";
 import UserHandler from "./modules/user/handler/user";
@@ -21,6 +21,11 @@ import {validateToken} from "./middleware/jwt";
 import User from "./modules/user/entity/user";
 import {Book} from "./modules/book/entity/book";
 import {FavoriteBooks} from "./modules/user/entity/favorite_books";
+import {FavoriteBookRepository} from "./modules/user/repository/favorite_book";
+import {FavoriteBookService} from "./modules/user/service/favorite_book";
+import {FavoriteBookHandler} from "./modules/user/handler/favorite_book";
+import {initFavoriteBookRoute} from "./modules/user/routes/favorite_book";
+import jwt from "jsonwebtoken";
 
 
 
@@ -57,6 +62,15 @@ import {FavoriteBooks} from "./modules/user/entity/favorite_books";
      container.register<BookHandler>("BookHandler", {
          useClass: BookHandler,
      })
+     container.register<IFavoriteBookRepository>("IFavoriteBookRepository", {
+         useFactory: () => new FavoriteBookRepository
+     })
+     container.register<IFavoriteBookService>("IFavoriteBookService", {
+         useClass:FavoriteBookService
+     })
+     container.register<FavoriteBookHandler>("FavoriteBookHandler", {
+         useClass:FavoriteBookHandler
+     })
 
      initModels()
 
@@ -77,8 +91,11 @@ import {FavoriteBooks} from "./modules/user/entity/favorite_books";
    })
 
    app.use("/api", initUserRoute(publicRouter));
-   privateRouter.use(validateToken)
-   app.use("/internal", initBookRoutes(privateRouter))
+     privateRouter.use(cors())
+     privateRouter.use(express.json())
+     privateRouter.use(loggingMiddleware)
+     privateRouter.use(validateToken)
+   app.use("/internal", initBookRoutes(privateRouter), initFavoriteBookRoute(privateRouter))
 }
 bootstrapApp()
 
