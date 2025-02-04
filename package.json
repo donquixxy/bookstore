@@ -8,8 +8,10 @@
     "start": "cross-env TZ=Asia/Makassar ts-node src/index.ts"
   },
   "dependencies": {
+    "@types/body-parser": "^1.19.5",
     "@types/caller": "^1.0.2",
     "@types/express": "^5.0.0",
+    "@types/express-formidable": "^1.2.3",
     "@types/jsonwebtoken": "^9.0.8",
     "@types/stack-trace": "^0.0.33",
     "bcrypt": "^5.1.1",

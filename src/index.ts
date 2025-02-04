@@ -25,7 +25,6 @@ import {FavoriteBookRepository} from "./modules/user/repository/favorite_book";
 import {FavoriteBookService} from "./modules/user/service/favorite_book";
 import {FavoriteBookHandler} from "./modules/user/handler/favorite_book";
 import {initFavoriteBookRoute} from "./modules/user/routes/favorite_book";
-import jwt from "jsonwebtoken";
 
 
 
@@ -33,8 +32,9 @@ import jwt from "jsonwebtoken";
  async function bootstrapApp () {
     logger.log("info", "Bootstrapping app . . . .")
     const app = express()
-
     app.use(cors())
+    app.use(express.urlencoded())
+    app.use(express.urlencoded({ extended: true }));
     app.use(express.json())
     app.use(loggingMiddleware)
     const publicRouter = express.Router()
@@ -95,7 +95,7 @@ import jwt from "jsonwebtoken";
      privateRouter.use(express.json())
      privateRouter.use(loggingMiddleware)
      privateRouter.use(validateToken)
-   app.use("/internal", initBookRoutes(privateRouter), initFavoriteBookRoute(privateRouter))
+     app.use("/internal",initBookRoutes(privateRouter), initFavoriteBookRoute(privateRouter))
 }
 bootstrapApp()
 

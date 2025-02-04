@@ -71,7 +71,7 @@ export class FavoriteBookService implements IFavoriteBookService {
         }
     }
 
-    async Get(filter: FavoriteBookFilter): Promise<FavoriteBooks> {
+    async Get(filter: FavoriteBookFilter): Promise<FavoriteBooks|null> {
         return this.favoriteBookRepository.Get(filter);
     }
 

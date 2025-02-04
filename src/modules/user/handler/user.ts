@@ -2,7 +2,7 @@ import {IUserService} from "../interfaces/service";
 import {injectable, inject} from "tsyringe";
 import User, {LoginDTO, UserFilterDTO} from "../dto/user";
 import { Request, Response } from "express";
-import { plainToInstance } from "class-transformer";
+import {plainToClass, plainToInstance} from "class-transformer";
 import UserCreateDTO from "../dto/user";
 import {validate} from "class-validator";
 import BaseResponse from "../../../utils/base_response";
@@ -22,11 +22,9 @@ class UserHandler {
     async createUser (request:Request,response:Response):Promise<Response> {
         try {
             // Create an instance of UserCreateDTO
-            const userDto = new UserCreateDTO();
 
-            // Map request body properties to the DTO instance
-            Object.assign(userDto, request.body);
-
+            const userDto =   plainToInstance(UserCreateDTO, request.body) as UserCreateDTO
+            console.log(userDto)
             const err = await validate(userDto);
 
             if (err.length > 0) {

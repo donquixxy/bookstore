@@ -14,6 +14,6 @@ export interface IUserService {
 }
 
 export interface IFavoriteBookService {
-    Get (filter:FavoriteBookFilter):Promise<FavoriteBooks>
+    Get (filter:FavoriteBookFilter):Promise<FavoriteBooks|null>
     FavoriteBook (data:FavoriteBookDTO):Promise<string>
 }

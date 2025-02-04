@@ -8,7 +8,6 @@ class DatabaseConfig {
     dbname: string;
 
     constructor() {
-        dotenv.config()
         this.host = process.env.DB_HOST || "localhost";
         this.dbname=process.env.DB_NAME || "bookstore";
         this.port= process.env.DB_PORT ? parseInt(process.env.DB_PORT, 10) : 3308;
